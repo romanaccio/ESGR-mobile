@@ -14,7 +14,7 @@ import {
   ProfileParamList,
   TestParamList,
   NewsParamList,
-} from '../types';
+} from '../components/types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 

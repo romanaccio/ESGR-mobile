@@ -10,14 +10,6 @@ export default function EditScreenInfo({ path }: { path: string }) {
   return (
     <View>
       <View style={styles.getStartedContainer}>
-        <Text
-          style={styles.getStartedText}
-          lightColor='rgba(0,0,0,0.8)'
-          darkColor='rgba(255,255,255,0.8)'
-        >
-          Contenu de la page... Open up the code for this screen:
-        </Text>
-
         <View
           style={[styles.codeHighlightContainer, styles.homeScreenFilename]}
           darkColor='rgba(255,255,255,0.05)'
@@ -38,7 +30,7 @@ export default function EditScreenInfo({ path }: { path: string }) {
       <View style={styles.helpContainer}>
         <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
           <Text style={styles.helpLinkText} lightColor={Colors.light.tint}>
-            Additional info about ESGR
+            Additional info about LFA Fund
           </Text>
         </TouchableOpacity>
       </View>
@@ -47,9 +39,7 @@ export default function EditScreenInfo({ path }: { path: string }) {
 }
 
 function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet'
-  );
+  WebBrowser.openBrowserAsync('https://www.lfa-fund.org/');
 }
 
 const styles = StyleSheet.create({
@@ -81,6 +71,7 @@ const styles = StyleSheet.create({
   getStartedContainer: {
     alignItems: 'center',
     marginHorizontal: 50,
+    backgroundColor: 'rgba(100,200,100, 0.8)',
   },
   homeScreenFilename: {
     marginVertical: 7,
