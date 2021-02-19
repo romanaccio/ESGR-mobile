@@ -1,27 +1,3 @@
-export const testData = [
-  {
-    title: 'From Squamish to Colombia and back',
-    text:
-      'New documentary is directed by Squamish resident, and backed by actor Joaquin Phoenix; Sonic Forest is available on YouTube\n\nSonic Forest is not like any environmental justice film you have ever seen before.\n\nFor one thing, it has the star power of actor Joaquin Phoenix presenting it; a powerhouse C...',
-    grade: 0.5,
-    image_url:
-      'https://www.vmcdn.ca/f/files/glaciermedia/import/lmp-all/1637581-sf-teaser-woman-paints-simon.jpg;w=1200;h=800;mode=crop',
-    id: 0,
-    quality: 0.1,
-  },
-  {
-    title:
-      'Two years after Bolsonaro\u2019s election: Brazil on a perpetual campaign trail',
-    text:
-      'The 28th of October marked two years since the national elections that catapulted Jair Bolsonaro to the presidency of Brazil. While the government took pains to show the work it has been doing throughout this period, emphasizing infrastructural projects, drug trafficking combat, and an agribusiness ...',
-    grade: 0.0,
-    image_url:
-      'https://cdn-prod.opendemocracy.net/media/images/PA-56297539.2e16d0ba.fill-1200x630.jpg',
-    id: 1,
-    quality: 0.3,
-  },
-];
-
 export const data = [
   {
     title: 'From Squamish to Colombia and back',

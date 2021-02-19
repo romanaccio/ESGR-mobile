@@ -1,5 +1,4 @@
-import cardBack from '../../assets/images/card_back.png';
-
+// import cardBack from '../img/card_back.png';
 export interface ArticleInterface {
   id: number;
   image_url: string;
@@ -14,7 +13,7 @@ export interface ArticleInterface {
 
 export const defaultArticle: ArticleInterface = {
   id: 0,
-  image_url: cardBack,
+  image_url: 'https://gallica.bnf.fr/ark:/12148/btv1b10509986j/f1.highres',
   title: 'You have reviewed all the articles',
   content: 'Please check your score below',
   grade: 0,

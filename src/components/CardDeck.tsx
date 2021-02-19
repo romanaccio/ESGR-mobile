@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Button, Image, ScrollView, View } from 'react-native';
-import { Text } from '../components/Themed';
+import {
+  StyleSheet,
+  Button,
+  Image,
+  ScrollView,
+  View,
+  Text,
+} from 'react-native';
 import CardFace from '../components/CardFace';
 import Swiper from 'react-native-deck-swiper';
 import { getArticles } from '../services/getData';
@@ -16,9 +22,9 @@ export interface CardProps {
   legend?: string;
   displayButtons?: boolean;
 }
-enum SwipeDirection {
-  Left,
-  Right,
+export enum SwipeDirection {
+  LEFT,
+  RIGHT,
 }
 
 class CardDeck extends Component<CardProps> {
@@ -31,7 +37,7 @@ class CardDeck extends Component<CardProps> {
   };
 
   render() {
-    const { card, nextCard } = this.props;
+    const { card, nextCard, legend, displayButtons } = this.props;
     return (
       <>
         <View style={styles.swiper}>
@@ -52,49 +58,44 @@ class CardDeck extends Component<CardProps> {
             }}
             cardIndex={0}
             backgroundColor={'white'}
-            stackSize={3}
+            stackSize={2}
             verticalSwipe={false}
-            onSwipedLeft={(index) => this.onSwipe(SwipeDirection.Left, index)}
-            onSwipedRight={(index) => this.onSwipe(SwipeDirection.Right, index)}
+            onSwipedLeft={(index) => this.onSwipe(SwipeDirection.LEFT, index)}
+            onSwipedRight={(index) => this.onSwipe(SwipeDirection.RIGHT, index)}
           ></Swiper>
         </View>
         <View style={styles.buttons}>
-          <MyButton
-            handleSwipe={() => {
-              if (this.swiper) this.swiper.swipeLeft();
-            }}
-          >
-            <Entypo name='cross' size={24} color='red' />
-          </MyButton>
-          <MyButton
-            handleSwipe={() => {
-              if (this.swiper) this.swiper.swipeRight();
-            }}
-          >
-            <AntDesign name='heart' size={24} color='blue' />
-          </MyButton>
+          {displayButtons ? (
+            <>
+              <MyButton
+                handleSwipe={() => {
+                  if (this.swiper) this.swiper.swipeLeft();
+                }}
+              >
+                <Entypo name='cross' size={24} color='red' />
+              </MyButton>
+              <Text>{legend ? legend : 'Please swipe'}</Text>
+              <MyButton
+                handleSwipe={() => {
+                  if (this.swiper) this.swiper.swipeRight();
+                }}
+              >
+                <AntDesign name='heart' size={24} color='blue' />
+              </MyButton>
+            </>
+          ) : null}
         </View>
       </>
     );
   }
 }
 const styles = StyleSheet.create({
-  content: {
-    flex: 2,
-    position: 'absolute',
-    bottom: -4,
-    backgroundColor: 'white',
-    margin: 5,
-    paddingHorizontal: 20,
-    borderTopRightRadius: 12,
-    borderTopLeftRadius: 12,
-  },
   swiper: {
     height: '90%',
   },
   buttons: {
     paddingHorizontal: 20,
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     flexDirection: 'row',
   },
 });
