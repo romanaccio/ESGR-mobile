@@ -16,11 +16,11 @@ import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 
 export interface CardProps {
-  card: ArticleInterface;
-  nextCard: ArticleInterface;
+  cards: ArticleInterface[];
   handleSwipe(direction: SwipeDirection, card: ArticleInterface): void;
   legend?: string;
   displayButtons?: boolean;
+  enableSwipe?: boolean;
 }
 export enum SwipeDirection {
   LEFT,
@@ -28,16 +28,21 @@ export enum SwipeDirection {
 }
 
 class CardDeck extends Component<CardProps> {
+  public static defaultProps = {
+    legend: '',
+    displayButtons: true,
+    enableSwipe: true,
+  };
   swiper: Swiper<ArticleInterface> | null = null;
 
   onSwipe = (swipeDirection: SwipeDirection, index: number) => {
-    const { handleSwipe, card } = this.props;
-    if (handleSwipe) handleSwipe(swipeDirection, card);
+    const { handleSwipe, cards } = this.props;
+    if (handleSwipe) handleSwipe(swipeDirection, cards[0]);
     //FIXME: either use card on index
   };
 
   render() {
-    const { card, nextCard, legend, displayButtons } = this.props;
+    const { cards, legend, displayButtons, enableSwipe } = this.props;
     return (
       <>
         <View style={styles.swiper}>
@@ -45,7 +50,7 @@ class CardDeck extends Component<CardProps> {
             ref={(swiper) => {
               this.swiper = swiper;
             }}
-            cards={[card, nextCard]}
+            cards={cards}
             renderCard={(card) => {
               return <CardFace data={card} />;
             }}
@@ -60,6 +65,7 @@ class CardDeck extends Component<CardProps> {
             backgroundColor={'white'}
             stackSize={2}
             verticalSwipe={false}
+            horizontalSwipe={enableSwipe}
             onSwipedLeft={(index) => this.onSwipe(SwipeDirection.LEFT, index)}
             onSwipedRight={(index) => this.onSwipe(SwipeDirection.RIGHT, index)}
           ></Swiper>

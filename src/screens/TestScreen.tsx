@@ -40,7 +40,6 @@ export default class TestScreen extends Component {
     selectedCards: [] as ArticleInterface[],
     cardsPulled: 0,
     surveyStartTimestamp: 0,
-    done: false,
   };
 
   componentDidMount() {
@@ -179,10 +178,10 @@ export default class TestScreen extends Component {
               <>
                 <CardDeck
                   key={defaultArticle.title}
-                  card={defaultArticle}
-                  nextCard={defaultArticle}
+                  cards={[defaultArticle]}
                   handleSwipe={() => console.log('swipe disabled')}
                   displayButtons={false}
+                  enableSwipe={false}
                 />
                 <Button
                   title='Start over'
@@ -194,8 +193,7 @@ export default class TestScreen extends Component {
             ) : (
               <CardDeck
                 key={card.title}
-                card={card}
-                nextCard={nextCard}
+                cards={[card, nextCard]}
                 handleSwipe={this.handleSwipe}
                 legend={`Card ${cardsPulled + 1}/${MAX_CARDS_TO_PULL}`}
                 displayButtons={true}
