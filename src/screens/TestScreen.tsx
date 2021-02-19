@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Button, Image, ScrollView, View } from 'react-native';
 import { Text } from '../components/Themed';
 import CardFace from '../components/CardFace';
 import Swiper from 'react-native-deck-swiper';
 import { getArticles } from '../services/getData';
 import { ArticleInterface } from '../models/Article';
-import MyButton, { Direction } from '../components/MyButton';
+import MyButton from '../components/MyButton';
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 
@@ -20,65 +20,99 @@ interface StatusCardInterface {
 function StatusCard({ text }: StatusCardInterface) {
   return <Text>{text}</Text>;
 }
+enum SwipeDirection {
+  Left,
+  Right,
+}
 
-export default function TestScreen() {
-  const emptyArticles: ArticleInterface[] = [];
-  const [cards, setCards] = useState(emptyArticles);
-  const [done, setDone] = useState(false);
+const emptyArticles: ArticleInterface[] = [];
 
-  // remote data fetching
-  useEffect(() => {
-    setCards(getArticles());
-  }, []);
+export default class TestScreen extends Component {
+  swiper: Swiper<ArticleInterface> | null = null;
 
-  return (
-    <View style={styles.container}>
-      {cards.length > 0 ? (
-        done === false ? (
-          <>
-            <View style={styles.swiper}>
-              <Swiper
-                cards={cards}
-                renderCard={(card) => {
-                  return <CardFace data={card} />;
-                }}
-                onSwiped={(cardIndex) => {
-                  console.log(cardIndex);
-                }}
-                onSwipedAll={() => {
-                  setDone(true);
-                  console.log('onSwipedAll');
-                }}
-                cardIndex={0}
-                backgroundColor={'white'}
-                stackSize={3}
-                verticalSwipe={false}
-              ></Swiper>
-            </View>
-            <View style={styles.buttons}>
-              <MyButton handleSwipe={() => console.log('swipe left')}>
-                <Entypo name='cross' size={24} color='red' />
-              </MyButton>
-              <MyButton handleSwipe={() => console.log('swipe right')}>
-                <AntDesign name='heart' size={24} color='blue' />
-              </MyButton>
-            </View>
-          </>
+  state = {
+    cards: emptyArticles,
+    done: false,
+  };
+
+  componentDidMount() {
+    this.setState({ cards: getArticles() });
+  }
+
+  handleSwipe = (direction: SwipeDirection, index: number) => {
+    console.log('swipe ' + direction + ' index ' + index);
+  };
+
+  render() {
+    const { cards, done } = this.state;
+    return (
+      <View style={styles.container}>
+        {cards.length > 0 ? (
+          done === false ? (
+            <>
+              <View style={styles.swiper}>
+                <Swiper
+                  ref={(swiper) => {
+                    this.swiper = swiper;
+                  }}
+                  cards={cards}
+                  renderCard={(card) => {
+                    return <CardFace data={card} />;
+                  }}
+                  onSwiped={(cardIndex) => {
+                    console.log(cardIndex);
+                  }}
+                  onSwipedAll={() => {
+                    this.setState({ done: true });
+                    console.log('onSwipedAll');
+                  }}
+                  cardIndex={0}
+                  backgroundColor={'white'}
+                  stackSize={3}
+                  verticalSwipe={false}
+                  onSwipedLeft={(index) =>
+                    this.handleSwipe(SwipeDirection.Left, index)
+                  }
+                  onSwipedRight={(index) =>
+                    this.handleSwipe(SwipeDirection.Right, index)
+                  }
+                ></Swiper>
+              </View>
+              <View style={styles.buttons}>
+                <MyButton
+                  handleSwipe={() => {
+                    if (this.swiper) this.swiper.swipeLeft();
+                  }}
+                >
+                  <Entypo name='cross' size={24} color='red' />
+                </MyButton>
+                <MyButton
+                  handleSwipe={() => {
+                    if (this.swiper) this.swiper.swipeRight();
+                  }}
+                >
+                  <AntDesign name='heart' size={24} color='blue' />
+                </MyButton>
+              </View>
+            </>
+          ) : (
+            <Button
+              title='Start over'
+              onPress={() => {
+                console.log('Start over');
+                this.setState({
+                  cards: getArticles(),
+                  done: false,
+                });
+              }}
+            />
+          )
         ) : (
-          <Button
-            title='Start over'
-            onPress={() => {
-              console.log('Start over');
-              setCards(getArticles());
-              setDone(false);
-            }}
-          />
-        )
-      ) : (
-        <StatusCard text='Loading...' />
-      )}
-    </View>
-  );
+          <StatusCard text='Loading...' />
+        )}
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

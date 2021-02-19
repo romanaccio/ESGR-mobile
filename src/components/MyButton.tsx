@@ -1,11 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 
-export enum Direction {
-  Left,
-  Right,
-}
-
 interface MyButtonInterface {
   handleSwipe(): void;
 }
