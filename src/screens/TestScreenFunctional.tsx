@@ -29,6 +29,10 @@ export default function TestScreen() {
   const emptyArticles: ArticleInterface[] = [];
   const [cards, setCards] = useState(emptyArticles);
   const [done, setDone] = useState(false);
+
+  // this version does not work, because swiperRef.swipeLeft() crashes the app
+  // and I don't know how to fix this. The class based component works, so I'll stick to it
+  // (see TestScreen.tsx)
   const swiperRef = useRef(null);
 
   // remote data fetching

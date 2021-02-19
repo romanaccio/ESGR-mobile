@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
-
+import ProfileContext from '../components/ProfileContext';
 export default function ProfileScreen() {
   return (
     <View style={styles.container}>
@@ -13,8 +13,20 @@ export default function ProfileScreen() {
         lightColor='#eee'
         darkColor='rgba(255,255,255,0.1)'
       />
-      <Text>First name, last name</Text>
+      <ProfileContext.Consumer>
+        {(value) => {
+          return (
+            <>
+              <Text>Firstname: {value.firstname}</Text>
+              <Text>Lastname: {value.lastname}</Text>
+              <Text>Username: {value.username}</Text>
+            </>
+          );
+        }}
+      </ProfileContext.Consumer>
+
       <Text>Current profile with details</Text>
+
       <Text>Usage stats</Text>
       <EditScreenInfo path='/screens/TabOneScreen.tsx' />
     </View>

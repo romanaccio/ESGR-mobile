@@ -8,6 +8,7 @@ import { ArticleInterface } from '../models/Article';
 import MyButton from '../components/MyButton';
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import ProfileContext from '../components/ProfileContext';
 
 interface CardInterface {
   data: ArticleInterface;
@@ -36,6 +37,8 @@ export default class TestScreen extends Component {
   };
 
   componentDidMount() {
+    const profile = this.context;
+    console.log('Profile: ' + profile);
     this.setState({ cards: getArticles() });
   }
 
@@ -47,6 +50,9 @@ export default class TestScreen extends Component {
     const { cards, done } = this.state;
     return (
       <View style={styles.container}>
+        <Text style={styles.hello}>
+          Hello {this.context.firstname} {this.context.lastname}
+        </Text>
         {cards.length > 0 ? (
           done === false ? (
             <>
@@ -114,15 +120,19 @@ export default class TestScreen extends Component {
     );
   }
 }
+TestScreen.contextType = ProfileContext;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    // alignItems: 'center',
+    //  alignItems: 'center',
     // justifyContent: 'center',
   },
-
+  hello: {
+    fontSize: 20,
+    alignSelf: 'center',
+  },
   content: {
     flex: 2,
     position: 'absolute',

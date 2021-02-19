@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 interface MyButtonInterface {
   handleSwipe(): void;
@@ -10,15 +10,21 @@ const MyButton: FunctionComponent<MyButtonInterface> = ({
   children,
 }) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={handleSwipe}>
-      {children}
-    </TouchableOpacity>
+    <View style={styles.container}>
+      <TouchableOpacity style={styles.button} onPress={handleSwipe}>
+        {children}
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    borderRadius: 20,
+    backgroundColor: 'rgb(228,230,233)',
+  },
+  button: {
+    padding: 5,
   },
 });
 
