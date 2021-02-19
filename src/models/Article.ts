@@ -1,0 +1,31 @@
+import cardBack from '../../assets/images/card_back.png';
+
+export interface ArticleInterface {
+  id: number;
+  image_url: string;
+  title: string;
+  content: string;
+  grade: number;
+  choice: number;
+  quality: number;
+  timestamp?: number;
+  calculatedScore?: number;
+}
+
+export const defaultArticle: ArticleInterface = {
+  id: 0,
+  image_url: cardBack,
+  title: 'You have reviewed all the articles',
+  content: 'Please check your score below',
+  grade: 0,
+  choice: 0,
+  quality: 1,
+};
+
+export const articlesToReport = (articles: ArticleInterface[]) => {
+  return articles.map(({ id, timestamp, calculatedScore }) => ({
+    id,
+    timestamp,
+    calculatedScore,
+  }));
+};

@@ -76,7 +76,7 @@ function ProfileNavigator() {
       <ProfileStack.Screen
         name='ProfileScreen'
         component={ProfileScreen}
-        options={{ headerTitle: 'Profile Header' }}
+        options={{ headerTitle: 'ESGR - Profile ' }}
       />
     </ProfileStack.Navigator>
   );
@@ -90,7 +90,7 @@ function TestNavigator() {
       <TestStack.Screen
         name='TestScreen'
         component={TestScreen}
-        options={{ headerTitle: ' Test Header ' }}
+        options={{ headerTitle: ' ESGR - Test ' }}
       />
     </TestStack.Navigator>
   );
@@ -104,7 +104,7 @@ function NewsNavigator() {
       <NewsStack.Screen
         name='NewsScreen'
         component={NewsScreen}
-        options={{ headerTitle: ' News Header ' }}
+        options={{ headerTitle: ' ESGR - News ' }}
       />
     </NewsStack.Navigator>
   );
