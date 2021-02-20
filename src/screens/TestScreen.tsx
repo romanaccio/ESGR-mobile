@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Button, Image, ScrollView, View } from 'react-native';
+import { StyleSheet, Button, View } from 'react-native';
 import { Text } from '../components/Themed';
 import Swiper from 'react-native-deck-swiper';
 import { getArticles } from '../services/getData';
@@ -9,6 +9,7 @@ import CardDeck, { SwipeDirection } from '../components/CardDeck';
 import { calculateScore } from '../util/calculateScore';
 import { writeReport } from '../services/writeReport';
 import { articlesToReport } from '../models/Article';
+import ESGProfile from '../components/ESGProfile';
 
 type NextPair = {
   card: ArticleInterface;
@@ -149,9 +150,18 @@ export default class TestScreen extends Component {
     return cardsPulled >= MAX_CARDS_TO_PULL;
   };
 
+  saveResults = () => {
+    const { profile, setTheProfile } = this.context;
+    const newProfile = {
+      ...profile,
+      score: calculateScore(this.state.selectedCards),
+    };
+    setTheProfile(newProfile);
+  };
+
   render() {
     const { loading, cardsPulled } = this.state;
-    const profile = this.context;
+    const { profile } = this.context;
     const reachedLimit = this.reachedLimit(cardsPulled);
     const currentScore = calculateScore(this.state.selectedCards);
 
@@ -183,12 +193,21 @@ export default class TestScreen extends Component {
                   displayButtons={false}
                   enableSwipe={false}
                 />
-                <Button
-                  title='Start over'
-                  onPress={() => {
-                    this.tryAgain();
-                  }}
-                />
+                <View style={{ flexDirection: 'row', alignContent: 'center' }}>
+                  <Button
+                    title='Save results'
+                    onPress={() => {
+                      this.saveResults();
+                    }}
+                  />
+
+                  <Button
+                    title='Start over'
+                    onPress={() => {
+                      this.tryAgain();
+                    }}
+                  />
+                </View>
               </>
             ) : (
               <CardDeck
@@ -201,6 +220,7 @@ export default class TestScreen extends Component {
             )}
           </>
         )}
+        <ESGProfile score={calculateScore(this.state.selectedCards)} />
       </View>
     );
   }

@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Button,
-  Image,
-  ScrollView,
-  View,
-  Text,
-} from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import CardFace from '../components/CardFace';
 import Swiper from 'react-native-deck-swiper';
-import { getArticles } from '../services/getData';
 import { ArticleInterface } from '../models/Article';
 import MyButton from '../components/MyButton';
 import { AntDesign } from '@expo/vector-icons';

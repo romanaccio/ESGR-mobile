@@ -4,10 +4,11 @@ import { StyleSheet } from 'react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import ProfileContext from '../components/ProfileContext';
+import ESGProfile from '../components/ESGProfile';
 export default function ProfileScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>ESGR Landing page</Text>
+      <Text style={styles.title}>ESGR Profile page</Text>
       <View
         style={styles.separator}
         lightColor='#eee'
@@ -16,19 +17,19 @@ export default function ProfileScreen() {
       <ProfileContext.Consumer>
         {(value) => {
           return (
-            <>
-              <Text>Firstname: {value.firstname}</Text>
-              <Text>Lastname: {value.lastname}</Text>
-              <Text>Username: {value.username}</Text>
-            </>
+            <View style={styles.box}>
+              <Text>Firstname: {value.profile.firstname}</Text>
+              <Text>Lastname: {value.profile.lastname}</Text>
+              <Text>Username: {value.profile.username}</Text>
+              <Text style={{ textAlign: 'center' }}>Score</Text>
+              <ESGProfile score={value.profile.score} />
+            </View>
           );
         }}
       </ProfileContext.Consumer>
-
-      <Text>Current profile with details</Text>
-
-      <Text>Usage stats</Text>
-      <EditScreenInfo path='/screens/TabOneScreen.tsx' />
+      <View style={styles.box}>
+        <Text>Usage stats</Text>
+      </View>
     </View>
   );
 }
@@ -47,5 +48,9 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: '80%',
+  },
+  box: {
+    borderWidth: 1,
+    padding: 5,
   },
 });

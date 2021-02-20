@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
+import EditScreenInfo from '../components/EditScreenInfo';
 
 import { Text, View } from '../components/Themed';
 
@@ -13,6 +14,7 @@ export default function NewsScreen() {
         darkColor='rgba(255,255,255,0.1)'
       />
       <Text>News</Text>
+      <EditScreenInfo />
     </View>
   );
 }
