@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { View, Text } from '../components/Themed';
+
 import CardFace from '../components/CardFace';
 import Swiper from 'react-native-deck-swiper';
 import { ArticleInterface } from '../models/Article';
@@ -89,15 +91,11 @@ class CardDeck extends Component<CardProps> {
 }
 const styles = StyleSheet.create({
   swiper: {
-    //flex: 6,
     alignSelf: 'center',
     height: '90%',
     width: '100%',
   },
   buttons: {
-    //flex: 1,
-    //position: 'absolute',
-    //bottom: 0,
     paddingHorizontal: 20,
     justifyContent: 'space-evenly',
     flexDirection: 'row',

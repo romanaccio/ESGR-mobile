@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, Image, View } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
+import { View, Text } from '../components/Themed';
 
 import { ArticleInterface } from '../models/Article';
 

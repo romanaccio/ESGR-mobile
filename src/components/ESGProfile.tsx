@@ -1,10 +1,7 @@
 import React from 'react';
-import { StyleSheet, Button, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { View } from '../components/Themed';
 
-import { ArticleInterface } from '../models/Article';
-import { calculateScore } from '../util/calculateScore';
-
-// import { BorderLinearProgress } from './BiggerLinearProgress';
 import * as Progress from 'react-native-progress';
 export interface ESGProfileProps {
   score: number;
@@ -49,9 +46,7 @@ const ESGProfile = ({ score }: ESGProfileProps) => {
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
     flexDirection: 'row',
-
     alignItems: 'stretch',
     justifyContent: 'center',
   },

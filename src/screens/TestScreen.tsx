@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Button, View } from 'react-native';
-import { Text } from '../components/Themed';
+import { StyleSheet, Button } from 'react-native';
+import { View, Text } from '../components/Themed';
 import Swiper from 'react-native-deck-swiper';
 import { getArticles } from '../services/getData';
 import { ArticleInterface, defaultArticle } from '../models/Article';
@@ -15,10 +15,6 @@ type NextPair = {
   card: ArticleInterface;
   nextCard: ArticleInterface;
 };
-
-interface CardInterface {
-  data: ArticleInterface;
-}
 
 interface StatusCardInterface {
   text: string;
@@ -247,7 +243,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   content: {
-    backgroundColor: 'white',
+    //backgroundColor: 'white',
     alignSelf: 'stretch',
   },
 
