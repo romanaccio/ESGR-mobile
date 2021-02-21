@@ -182,7 +182,7 @@ export default class TestScreen extends Component {
               Hello {profile.firstname} {profile.lastname}
             </Text>
             {reachedLimit ? (
-              <>
+              <View style={styles.content}>
                 <CardDeck
                   key={defaultArticle.title}
                   cards={[defaultArticle]}
@@ -190,14 +190,21 @@ export default class TestScreen extends Component {
                   displayButtons={false}
                   enableSwipe={false}
                 />
+                <View style={styles.profile}>
+                  <ESGProfile
+                    score={calculateScore(this.state.selectedCards)}
+                  />
+                </View>
                 <View style={styles.buttons}>
                   {saved ? null : (
-                    <Button
-                      title='Save results'
-                      onPress={() => {
-                        this.saveResults();
-                      }}
-                    />
+                    <View style={styles.button}>
+                      <Button
+                        title='Save results'
+                        onPress={() => {
+                          this.saveResults();
+                        }}
+                      />
+                    </View>
                   )}
 
                   <Button
@@ -207,19 +214,25 @@ export default class TestScreen extends Component {
                     }}
                   />
                 </View>
-              </>
+              </View>
             ) : (
-              <CardDeck
-                key={card.title}
-                cards={[card, nextCard]}
-                handleSwipe={this.handleSwipe}
-                legend={`Card ${cardsPulled + 1}/${MAX_CARDS_TO_PULL}`}
-                displayButtons={true}
-              />
+              <View style={styles.content}>
+                <CardDeck
+                  key={card.title}
+                  cards={[card, nextCard]}
+                  handleSwipe={this.handleSwipe}
+                  legend={`Card ${cardsPulled + 1}/${MAX_CARDS_TO_PULL}`}
+                  displayButtons={true}
+                />
+                <View style={styles.profile}>
+                  <ESGProfile
+                    score={calculateScore(this.state.selectedCards)}
+                  />
+                </View>
+              </View>
             )}
           </>
         )}
-        <ESGProfile score={calculateScore(this.state.selectedCards)} />
       </View>
     );
   }
@@ -228,33 +241,26 @@ TestScreen.contextType = ProfileContext;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'white',
-    // alignItems: 'center',
-    //justifyContent: 'center',
+    alignItems: 'center',
   },
   hello: {
     fontSize: 20,
-    alignSelf: 'center',
   },
   content: {
-    flex: 2,
-    alignSelf: 'center',
-    position: 'absolute',
-    bottom: -4,
     backgroundColor: 'white',
-    margin: 5,
-    paddingHorizontal: 20,
-    borderTopRightRadius: 12,
-    borderTopLeftRadius: 12,
+    alignSelf: 'stretch',
   },
-  swiper: {
-    height: '90%',
-  },
+
   buttons: {
     paddingHorizontal: 20,
-    justifyContent: 'space-evenly',
     flexDirection: 'row',
     alignContent: 'center',
+    alignSelf: 'center',
+  },
+  button: {
+    paddingHorizontal: 2,
+  },
+  profile: {
+    top: -20,
   },
 });

@@ -36,7 +36,7 @@ class CardDeck extends Component<CardProps> {
   render() {
     const { cards, legend, displayButtons, enableSwipe } = this.props;
     return (
-      <>
+      <View>
         <View style={styles.swiper}>
           <Swiper
             ref={(swiper) => {
@@ -83,18 +83,25 @@ class CardDeck extends Component<CardProps> {
             </>
           ) : null}
         </View>
-      </>
+      </View>
     );
   }
 }
 const styles = StyleSheet.create({
   swiper: {
+    //flex: 6,
+    alignSelf: 'center',
     height: '90%',
+    width: '100%',
   },
   buttons: {
+    //flex: 1,
+    //position: 'absolute',
+    //bottom: 0,
     paddingHorizontal: 20,
     justifyContent: 'space-evenly',
     flexDirection: 'row',
+    alignSelf: 'stretch',
   },
 });
 

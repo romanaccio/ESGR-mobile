@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, Image, ScrollView, View } from 'react-native';
+import { StyleSheet, Text, Image, View } from 'react-native';
 
 import { ArticleInterface } from '../models/Article';
 
@@ -16,11 +16,10 @@ const CardFace = ({ data }: CardFaceProps) => {
           uri: data.image_url,
         }}
       />
-      <View style={[styles.empty]}></View>
-      <ScrollView style={[styles.content]}>
+      <View style={[styles.content]}>
         <Text style={styles.cardsTitle}>{data.title}</Text>
         <Text style={styles.cardsText}>{data.content}</Text>
-      </ScrollView>
+      </View>
     </View>
   );
 };
@@ -31,11 +30,11 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 12,
     borderBottomLeftRadius: 12,
     borderBottomRightRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 350,
-    height: 500,
-    paddingHorizontal: 20,
+    minWidth: 300,
+    minHeight: 420,
+    paddingHorizontal: 10,
+    alignSelf: 'center',
+    top: -20,
   },
   image: {
     borderTopRightRadius: 12,
@@ -63,6 +62,7 @@ const styles = StyleSheet.create({
     flex: 2,
     position: 'absolute',
     bottom: -4,
+    alignSelf: 'center',
     backgroundColor: 'white',
     margin: 5,
     paddingHorizontal: 20,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 12,
   },
   empty: {
-    flex: 3,
+    flex: 1,
   },
 });
 export default CardFace;
