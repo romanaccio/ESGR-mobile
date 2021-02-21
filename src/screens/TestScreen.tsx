@@ -41,6 +41,7 @@ export default class TestScreen extends Component {
     selectedCards: [] as ArticleInterface[],
     cardsPulled: 0,
     surveyStartTimestamp: 0,
+    saved: false,
   };
 
   componentDidMount() {
@@ -87,6 +88,7 @@ export default class TestScreen extends Component {
       databaseCards: [...this.state.initialDatabaseCards],
       selectedCards: [],
       surveyStartTimestamp: Date.now(),
+      saved: false,
     });
   };
 
@@ -150,10 +152,12 @@ export default class TestScreen extends Component {
       data: articlesToReport(selectedCards),
     };
     writeReport(surveyReport);
+
+    this.setState({ saved: true });
   };
 
   render() {
-    const { loading, cardsPulled } = this.state;
+    const { loading, cardsPulled, saved } = this.state;
     const { profile } = this.context;
     const reachedLimit = this.reachedLimit(cardsPulled);
     const currentScore = calculateScore(this.state.selectedCards);
@@ -186,13 +190,15 @@ export default class TestScreen extends Component {
                   displayButtons={false}
                   enableSwipe={false}
                 />
-                <View style={{ flexDirection: 'row', alignContent: 'center' }}>
-                  <Button
-                    title='Save results'
-                    onPress={() => {
-                      this.saveResults();
-                    }}
-                  />
+                <View style={styles.buttons}>
+                  {saved ? null : (
+                    <Button
+                      title='Save results'
+                      onPress={() => {
+                        this.saveResults();
+                      }}
+                    />
+                  )}
 
                   <Button
                     title='Start over'
@@ -247,7 +253,8 @@ const styles = StyleSheet.create({
   },
   buttons: {
     paddingHorizontal: 20,
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     flexDirection: 'row',
+    alignContent: 'center',
   },
 });

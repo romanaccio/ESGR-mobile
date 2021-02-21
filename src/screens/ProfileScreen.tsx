@@ -52,5 +52,6 @@ const styles = StyleSheet.create({
   box: {
     borderWidth: 1,
     padding: 5,
+    borderRadius: 10,
   },
 });
