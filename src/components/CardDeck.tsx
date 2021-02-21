@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { View, Text } from '../components/Themed';
-
 import CardFace from '../components/CardFace';
 import Swiper from 'react-native-deck-swiper';
 import { ArticleInterface } from '../models/Article';
@@ -56,7 +55,7 @@ class CardDeck extends Component<CardProps> {
               console.log('onSwipedAll');
             }}
             cardIndex={0}
-            backgroundColor={'white'}
+            backgroundColor='white'
             stackSize={2}
             verticalSwipe={false}
             horizontalSwipe={enableSwipe}
