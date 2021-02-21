@@ -90,25 +90,6 @@ export default class TestScreen extends Component {
     });
   };
 
-  goToResults = () => {
-    const profile = this.context;
-
-    // 1. save results to db
-    const { cardsPulled, selectedCards } = this.state;
-
-    if (this.reachedLimit(cardsPulled)) {
-      const username = profile.username ? profile.username : 'unknown';
-      const surveyReport = {
-        username,
-        reportStart: this.state.surveyStartTimestamp,
-        data: articlesToReport(selectedCards),
-      };
-      writeReport(surveyReport);
-    }
-    // 2. go to results page
-    //TODO : find way to change to profile page
-  };
-
   getMaximizedCard = (
     cards: ArticleInterface[],
     currentScore: number
@@ -152,11 +133,23 @@ export default class TestScreen extends Component {
 
   saveResults = () => {
     const { profile, setTheProfile } = this.context;
+    const { selectedCards } = this.state;
+
+    // 1. save results into context
     const newProfile = {
       ...profile,
       score: calculateScore(this.state.selectedCards),
     };
     setTheProfile(newProfile);
+
+    // 2. save results to db
+    const username = profile.username ? profile.username : 'unknown';
+    const surveyReport = {
+      username,
+      reportStart: this.state.surveyStartTimestamp,
+      data: articlesToReport(selectedCards),
+    };
+    writeReport(surveyReport);
   };
 
   render() {
