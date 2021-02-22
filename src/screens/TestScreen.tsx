@@ -11,11 +11,7 @@ import { writeReport } from '../services/writeReport';
 import { articlesToReport } from '../models/Article';
 import ESGProfile from '../components/ESGProfile';
 import Toast from 'react-native-tiny-toast';
-
-type NextPair = {
-  card: ArticleInterface;
-  nextCard: ArticleInterface;
-};
+import { selectNextCards } from '../util/selectNextCards';
 
 interface StatusCardInterface {
   text: string;
@@ -25,7 +21,6 @@ function StatusCard({ text }: StatusCardInterface) {
   return <Text>{text}</Text>;
 }
 
-const emptyArticles: ArticleInterface[] = [];
 const MAX_CARDS_TO_PULL = 10; // this has to be a positive integer
 
 export default class TestScreen extends Component {
@@ -89,43 +84,6 @@ export default class TestScreen extends Component {
     });
   };
 
-  getMaximizedCard = (
-    cards: ArticleInterface[],
-    currentScore: number
-  ): number => {
-    if (cards.length === 0) return -1;
-
-    let indexOfMax = 0;
-    let maxChoice = 0;
-
-    cards.forEach((card, index) => {
-      const choice = 2 * card.quality + Math.abs(card.grade - currentScore);
-      if (choice > maxChoice) {
-        maxChoice = choice;
-        indexOfMax = index;
-      }
-    });
-    return indexOfMax;
-  };
-
-  selectNextCard = (
-    cards: ArticleInterface[],
-    currentScore: number
-  ): NextPair => {
-    const databaseCards = [...cards];
-    let firstCard = defaultArticle;
-    let secondCard = defaultArticle;
-    const firstCardIndex = this.getMaximizedCard(databaseCards, currentScore);
-    let secondCardIndex = -1;
-    if (firstCardIndex > -1) {
-      firstCard = databaseCards[firstCardIndex];
-      databaseCards.splice(firstCardIndex, 1);
-      secondCardIndex = this.getMaximizedCard(databaseCards, currentScore);
-      if (secondCardIndex > -1) secondCard = databaseCards[secondCardIndex];
-    }
-    return { card: firstCard, nextCard: secondCard };
-  };
-
   reachedLimit = (cardsPulledNumber: number): boolean => {
     return cardsPulledNumber >= MAX_CARDS_TO_PULL;
   };
@@ -151,6 +109,7 @@ export default class TestScreen extends Component {
     try {
       await writeReport(surveyReport);
     } catch (error) {
+      console.log('writeReport: ' + error.message);
       Toast.show(error.message);
     }
 
@@ -163,10 +122,7 @@ export default class TestScreen extends Component {
     const reachedLimit = this.reachedLimit(cardsPulledNumber);
     const currentScore = calculateScore(this.state.selectedCards);
 
-    const nextPair = this.selectNextCard(
-      this.state.databaseCards,
-      currentScore
-    );
+    const nextPair = selectNextCards(this.state.databaseCards, currentScore);
     let { card, nextCard } = nextPair;
     // store score in card for the record
     card.calculatedScore = currentScore;
