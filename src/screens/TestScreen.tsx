@@ -10,6 +10,7 @@ import { calculateScore } from '../util/calculateScore';
 import { writeReport } from '../services/writeReport';
 import { articlesToReport } from '../models/Article';
 import ESGProfile from '../components/ESGProfile';
+import Toast from 'react-native-tiny-toast';
 
 type NextPair = {
   card: ArticleInterface;
@@ -35,7 +36,7 @@ export default class TestScreen extends Component {
     initialDatabaseCards: [] as ArticleInterface[],
     databaseCards: [] as ArticleInterface[],
     selectedCards: [] as ArticleInterface[],
-    cardsPulled: 0,
+    cardsPulledNumber: 0,
     surveyStartTimestamp: 0,
     saved: false,
   };
@@ -48,7 +49,7 @@ export default class TestScreen extends Component {
     this.setState({
       initialDatabaseCards,
       databaseCards,
-      cardsPulled: 0,
+      cardsPulledNumber: 0,
       loading: false,
       surveyStartTimestamp: Date.now(),
     });
@@ -60,7 +61,7 @@ export default class TestScreen extends Component {
     );
     const selectedCards = [...this.state.selectedCards];
     const databaseCards = [...this.state.databaseCards];
-    let cardsPulled = this.state.cardsPulled;
+    let cardsPulledNumber = this.state.cardsPulledNumber;
 
     const index = databaseCards.indexOf(card);
     if (index > -1) {
@@ -73,14 +74,14 @@ export default class TestScreen extends Component {
       selectedCards.push(card);
       databaseCards.splice(index, 1);
 
-      cardsPulled++;
-      this.setState({ selectedCards, databaseCards, cardsPulled });
+      cardsPulledNumber++;
+      this.setState({ selectedCards, databaseCards, cardsPulledNumber });
     }
   };
 
   tryAgain = () => {
     this.setState({
-      cardsPulled: 0,
+      cardsPulledNumber: 0,
       databaseCards: [...this.state.initialDatabaseCards],
       selectedCards: [],
       surveyStartTimestamp: Date.now(),
@@ -125,11 +126,11 @@ export default class TestScreen extends Component {
     return { card: firstCard, nextCard: secondCard };
   };
 
-  reachedLimit = (cardsPulled: number): boolean => {
-    return cardsPulled >= MAX_CARDS_TO_PULL;
+  reachedLimit = (cardsPulledNumber: number): boolean => {
+    return cardsPulledNumber >= MAX_CARDS_TO_PULL;
   };
 
-  saveResults = () => {
+  saveResults = async () => {
     const { profile, setTheProfile } = this.context;
     const { selectedCards } = this.state;
 
@@ -147,15 +148,19 @@ export default class TestScreen extends Component {
       reportStart: this.state.surveyStartTimestamp,
       data: articlesToReport(selectedCards),
     };
-    writeReport(surveyReport);
+    try {
+      await writeReport(surveyReport);
+    } catch (error) {
+      Toast.show(error.message);
+    }
 
     this.setState({ saved: true });
   };
 
   render() {
-    const { loading, cardsPulled, saved } = this.state;
+    const { loading, cardsPulledNumber, saved } = this.state;
     const { profile } = this.context;
-    const reachedLimit = this.reachedLimit(cardsPulled);
+    const reachedLimit = this.reachedLimit(cardsPulledNumber);
     const currentScore = calculateScore(this.state.selectedCards);
 
     const nextPair = this.selectNextCard(
@@ -166,7 +171,7 @@ export default class TestScreen extends Component {
     // store score in card for the record
     card.calculatedScore = currentScore;
 
-    if (cardsPulled === MAX_CARDS_TO_PULL - 1) nextCard = defaultArticle;
+    if (cardsPulledNumber === MAX_CARDS_TO_PULL - 1) nextCard = defaultArticle;
 
     return (
       <View style={styles.container}>
@@ -217,7 +222,7 @@ export default class TestScreen extends Component {
                   key={card.title}
                   cards={[card, nextCard]}
                   handleSwipe={this.handleSwipe}
-                  legend={`Card ${cardsPulled + 1}/${MAX_CARDS_TO_PULL}`}
+                  legend={`Card ${cardsPulledNumber + 1}/${MAX_CARDS_TO_PULL}`}
                   displayButtons={true}
                 />
                 <View style={styles.profile}>

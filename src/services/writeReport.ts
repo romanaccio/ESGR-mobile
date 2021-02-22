@@ -6,9 +6,9 @@ interface ReportInterface {
   reportStart: number;
   data: any;
 }
-export const writeReport = (report: ReportInterface): void => {
+export const writeReport = async (report: ReportInterface): Promise<void> => {
   const url = REACT_APP_ESGR_BACKEND_URL;
   console.log('ESGR backend url : ' + url);
-  if (url) axios.post(url + '/surveys', report);
-  else console.log("Can't write report to ESGR Backend");
+  if (url) await axios.post(url + '/surveys', report);
+  else console.log("Can't write report to ESGR Backend: missing url");
 };
