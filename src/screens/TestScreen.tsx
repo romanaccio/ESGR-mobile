@@ -11,7 +11,7 @@ import { writeReport } from '../services/writeReport';
 import { articlesToReport } from '../models/Article';
 import ESGProfile from '../components/ESGProfile';
 import Toast from 'react-native-tiny-toast';
-import { selectNextCards } from '../util/selectNextCards';
+import { selectNextCards, initialNextCards } from '../util/selectNextCards';
 
 interface StatusCardInterface {
   text: string;
@@ -27,13 +27,14 @@ export default class TestScreen extends Component {
   swiper: Swiper<ArticleInterface> | null = null;
 
   state = {
-    loading: false,
+    loading: true,
     initialDatabaseCards: [] as ArticleInterface[],
     databaseCards: [] as ArticleInterface[],
     selectedCards: [] as ArticleInterface[],
     cardsPulledNumber: 0,
     surveyStartTimestamp: 0,
     saved: false,
+    nextCards: initialNextCards,
   };
 
   componentDidMount() {
@@ -41,44 +42,75 @@ export default class TestScreen extends Component {
 
     const initialDatabaseCards = getArticles();
     const databaseCards = [...initialDatabaseCards];
+    const selectedCards: ArticleInterface[] = [];
+    const nextCards = selectNextCards(selectedCards, databaseCards, null);
+    console.log('nextCards, first time:');
+    console.log(nextCards);
     this.setState({
       initialDatabaseCards,
       databaseCards,
+      selectedCards,
       cardsPulledNumber: 0,
       loading: false,
       surveyStartTimestamp: Date.now(),
+      nextCards,
     });
   }
 
+  // direction is the swipe direction exxecuted by the user
+  // card is the card which has been swiped
   handleSwipe = (direction: SwipeDirection, card: ArticleInterface) => {
     console.log(
       'handleSwipe direction: ' + direction + ' on card with id ' + card.id
     );
     const selectedCards = [...this.state.selectedCards];
     const databaseCards = [...this.state.databaseCards];
+    const currentNextCards = this.state.nextCards;
     let cardsPulledNumber = this.state.cardsPulledNumber;
 
     const index = databaseCards.indexOf(card);
     if (index > -1) {
       if (direction === SwipeDirection.RIGHT) {
         card.choice = 1;
+        currentNextCards.card.choice = 1;
       } else if (direction === SwipeDirection.LEFT) {
         card.choice = -1;
+        currentNextCards.card.choice = -1;
       }
       card.timestamp = Date.now();
       selectedCards.push(card);
       databaseCards.splice(index, 1);
-
+      // at this point, selected card include all selected cards sincec the beginning of
+      // the test, including the latest one, and databaseCards contain the ones that have
+      // not been selected yet
+      const nextCards = selectNextCards(
+        selectedCards,
+        databaseCards,
+        currentNextCards
+      );
+      // console.log('nextCards:');
+      // console.log(nextCards);
+      // now update the state
       cardsPulledNumber++;
-      this.setState({ selectedCards, databaseCards, cardsPulledNumber });
+      this.setState({
+        selectedCards,
+        databaseCards,
+        cardsPulledNumber,
+        nextCards,
+      });
     }
   };
 
   tryAgain = () => {
+    const databaseCards = [...this.state.initialDatabaseCards];
+    const selectedCards: ArticleInterface[] = [];
+    const nextCards = selectNextCards(selectedCards, databaseCards, null);
+
     this.setState({
       cardsPulledNumber: 0,
-      databaseCards: [...this.state.initialDatabaseCards],
-      selectedCards: [],
+      databaseCards,
+      selectedCards,
+      nextCards,
       surveyStartTimestamp: Date.now(),
       saved: false,
     });
@@ -117,14 +149,24 @@ export default class TestScreen extends Component {
   };
 
   render() {
-    const { loading, cardsPulledNumber, saved } = this.state;
+    const { loading, cardsPulledNumber, saved, nextCards } = this.state;
     const { profile } = this.context;
     const reachedLimit = this.reachedLimit(cardsPulledNumber);
-    const currentScore = calculateScore(this.state.selectedCards);
 
-    const nextPair = selectNextCards(this.state.databaseCards, currentScore);
-    let { card, nextCard } = nextPair;
+    let { card, nextCard, nextNextCardIfRight, nextNextCardIfLeft } = nextCards;
+    console.log(
+      'render : card.id=' +
+        card.id +
+        ' nextCard.id=' +
+        nextCard.id +
+        ' nextNextCardIfRight.id=' +
+        nextNextCardIfRight.id +
+        ' nextNextCardIfLeft.id=' +
+        nextNextCardIfLeft.id
+    );
     // store score in card for the record
+    // is it any useful???? TBC with Charles
+    const currentScore = calculateScore(this.state.selectedCards);
     card.calculatedScore = currentScore;
 
     if (cardsPulledNumber === MAX_CARDS_TO_PULL - 1) nextCard = defaultArticle;
@@ -141,7 +183,6 @@ export default class TestScreen extends Component {
             {reachedLimit ? (
               <View style={styles.content}>
                 <CardDeck
-                  key={defaultArticle.title}
                   cards={[defaultArticle]}
                   handleSwipe={() => console.log('swipe disabled')}
                   displayButtons={false}
@@ -175,7 +216,6 @@ export default class TestScreen extends Component {
             ) : (
               <View style={styles.content}>
                 <CardDeck
-                  key={card.title}
                   cards={[card, nextCard]}
                   handleSwipe={this.handleSwipe}
                   legend={`Card ${cardsPulledNumber + 1}/${MAX_CARDS_TO_PULL}`}

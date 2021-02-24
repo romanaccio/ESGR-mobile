@@ -43,6 +43,7 @@ class CardDeck extends Component<CardProps> {
             ref={(swiper) => {
               this.swiper = swiper;
             }}
+            key={cards[0].id}
             cards={cards}
             renderCard={(card) => {
               return <CardFace data={card} />;
@@ -61,6 +62,10 @@ class CardDeck extends Component<CardProps> {
             horizontalSwipe={enableSwipe}
             onSwipedLeft={(index) => this.onSwipe(SwipeDirection.LEFT, index)}
             onSwipedRight={(index) => this.onSwipe(SwipeDirection.RIGHT, index)}
+            stackSeparation={0}
+            stackScale={0}
+            stackAnimationFriction={0}
+            stackAnimationTension={0}
           ></Swiper>
         </View>
         <View style={styles.buttons}>

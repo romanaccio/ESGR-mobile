@@ -12,7 +12,7 @@ export interface ArticleInterface {
 }
 
 export const defaultArticle: ArticleInterface = {
-  id: 0,
+  id: -1,
   image_url: 'https://gallica.bnf.fr/ark:/12148/btv1b10509986j/f1.highres',
   title: 'You have reviewed all the articles',
   content: 'Please check your score below',

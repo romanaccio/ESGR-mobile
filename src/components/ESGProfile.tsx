@@ -52,10 +52,12 @@ const styles = StyleSheet.create({
   },
   left: {
     borderColor: 'red',
+    backgroundColor: 'pink',
     transform: [{ rotate: '180deg' }],
   },
   right: {
     borderColor: 'blue',
+    backgroundColor: 'lightblue',
   },
 });
 
