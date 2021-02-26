@@ -11,3 +11,5 @@ This should become an external source eventually (REST API probably).
 
 Data sink: a backend is implemented in a separate project (ESGR-backend) to store the results of tests. The url of that backend has to be set inside environment variable REACT_APP_ESGR_BACKEND_URL.
 It should be set in file .env.development or .env.production depending if it is a DEBUG our RELEASE build.
+Please note that those two .env files are not saved into the git repository in order to keep their content secret.
+However, file .env.template.development, which is saved into the repo, contains an example of the expected format.

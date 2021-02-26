@@ -47,45 +47,43 @@ export const selectNextCards = (
   let thirdCardIfRight = defaultArticle;
 
   if (currentNextCards !== null) {
-    console.log('currentNextCards is not null');
+    //console.log('currentNextCards is not null');
     firstCard = currentNextCards.nextCard;
     if (currentNextCards.card.choice === -1) {
-      console.log('last card was swiped left');
+      //console.log('last card was swiped left');
       secondCard = currentNextCards.nextNextCardIfLeft;
     } else {
-      console.log('last card was swiped right');
-
+      //console.log('last card was swiped right');
       secondCard = currentNextCards.nextNextCardIfRight;
     }
     // remove firstCard and secondCard from localRemainingCards and add them to localSelectedCards
     const firstCardIndex = localRemainingCards.findIndex(
       (card) => card.id === firstCard.id
     );
-    console.log('firstCardIndex=' + firstCardIndex);
+    //console.log('firstCardIndex=' + firstCardIndex);
     if (firstCardIndex > -1) {
-      console.log('removing fist card from localRemainingCards');
+      //console.log('removing fist card from localRemainingCards');
       localRemainingCards.splice(firstCardIndex, 1);
     }
     const secondCardIndex = localRemainingCards.findIndex(
       (card) => card.id === secondCard.id
     );
-    console.log('secondCardIndex=' + secondCardIndex);
+    //console.log('secondCardIndex=' + secondCardIndex);
 
     if (secondCardIndex > -1) {
-      console.log('removing second card from localRemainingCards');
-
+      //console.log('removing second card from localRemainingCards');
       localRemainingCards.splice(secondCardIndex, 1);
     }
     localSelectedCards.push(firstCard);
     localSelectedCards.push(secondCard);
   } else {
-    console.log('currentNextCards is null');
+    //console.log('currentNextCards is null');
 
     const currentScore = calculateScore(localSelectedCards);
     const firstCardIndex = getMaximizedCard(localRemainingCards, currentScore);
     let secondCardIndex = -1;
     if (firstCardIndex > -1) {
-      console.log('found first card');
+      //console.log('found first card');
 
       firstCard = localRemainingCards[firstCardIndex];
       localRemainingCards.splice(firstCardIndex, 1);
@@ -93,7 +91,7 @@ export const selectNextCards = (
       const newScore = calculateScore(localSelectedCards);
       secondCardIndex = getMaximizedCard(localRemainingCards, newScore);
       if (secondCardIndex > -1) {
-        console.log('found second card');
+        //console.log('found second card');
 
         secondCard = localRemainingCards[secondCardIndex];
         // remove second card from localRemainingCards
@@ -118,7 +116,7 @@ export const selectNextCards = (
     leftChoiceScore
   );
   if (thirdCardLeftIndex > -1) {
-    console.log('found third card left');
+    //console.log('found third card left');
     thirdCardIfLeft = localRemainingCards[thirdCardLeftIndex];
   }
   const thirdCardRightIndex = getMaximizedCard(
@@ -126,7 +124,7 @@ export const selectNextCards = (
     rightChoiceScore
   );
   if (thirdCardRightIndex > -1) {
-    console.log('found third card right');
+    //console.log('found third card right');
 
     thirdCardIfRight = localRemainingCards[thirdCardRightIndex];
   }

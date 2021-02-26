@@ -44,8 +44,8 @@ export default class TestScreen extends Component {
     const databaseCards = [...initialDatabaseCards];
     const selectedCards: ArticleInterface[] = [];
     const nextCards = selectNextCards(selectedCards, databaseCards, null);
-    console.log('nextCards, first time:');
-    console.log(nextCards);
+    // console.log('nextCards, first time:');
+    // console.log(nextCards);
     this.setState({
       initialDatabaseCards,
       databaseCards,
@@ -60,9 +60,9 @@ export default class TestScreen extends Component {
   // direction is the swipe direction exxecuted by the user
   // card is the card which has been swiped
   handleSwipe = (direction: SwipeDirection, card: ArticleInterface) => {
-    console.log(
-      'handleSwipe direction: ' + direction + ' on card with id ' + card.id
-    );
+    // console.log(
+    //   'handleSwipe direction: ' + direction + ' on card with id ' + card.id
+    // );
     const selectedCards = [...this.state.selectedCards];
     const databaseCards = [...this.state.databaseCards];
     const currentNextCards = this.state.nextCards;
@@ -153,17 +153,18 @@ export default class TestScreen extends Component {
     const { profile } = this.context;
     const reachedLimit = this.reachedLimit(cardsPulledNumber);
 
-    let { card, nextCard, nextNextCardIfRight, nextNextCardIfLeft } = nextCards;
-    console.log(
-      'render : card.id=' +
-        card.id +
-        ' nextCard.id=' +
-        nextCard.id +
-        ' nextNextCardIfRight.id=' +
-        nextNextCardIfRight.id +
-        ' nextNextCardIfLeft.id=' +
-        nextNextCardIfLeft.id
-    );
+    let { card, nextCard } = nextCards;
+    // let { nextNextCardIfRight, nextNextCardIfLeft } = nextCards;
+    // console.log(
+    //   'render : card.id=' +
+    //     card.id +
+    //     ' nextCard.id=' +
+    //     nextCard.id +
+    //     ' nextNextCardIfRight.id=' +
+    //     nextNextCardIfRight.id +
+    //     ' nextNextCardIfLeft.id=' +
+    //     nextNextCardIfLeft.id
+    // );
     // store score in card for the record
     // is it any useful???? TBC with Charles
     const currentScore = calculateScore(this.state.selectedCards);

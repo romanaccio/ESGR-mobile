@@ -29,6 +29,7 @@
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
-    }
+    },
+    "description": "This is a draft of the ESGR app. It allows to select articles in a Tinder-like mode (swipe left/right) and calculate an ESG score."
   }
 }

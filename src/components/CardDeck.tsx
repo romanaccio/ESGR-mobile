@@ -49,7 +49,7 @@ class CardDeck extends Component<CardProps> {
               return <CardFace data={card} />;
             }}
             onSwiped={(cardIndex) => {
-              console.log(cardIndex);
+              console.log('swiped card with index ' + cardIndex);
             }}
             onSwipedAll={() => {
               this.setState({ done: true });
