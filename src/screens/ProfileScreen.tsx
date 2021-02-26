@@ -5,6 +5,8 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import ProfileContext from '../components/ProfileContext';
 import ESGProfile from '../components/ESGProfile';
+import Profile from '../components/Profile';
+
 export default function ProfileScreen() {
   return (
     <View style={styles.container}>
@@ -18,9 +20,15 @@ export default function ProfileScreen() {
         {(value) => {
           return (
             <View style={styles.box}>
-              <Text>Firstname: {value.profile.firstname}</Text>
-              <Text>Lastname: {value.profile.lastname}</Text>
-              <Text>Username: {value.profile.username}</Text>
+              <Profile
+                key={value.profile.score} // adding this key so that a score change makes the Profile re-render.
+                profile={value.profile}
+                setProfile={(newProfile) => {
+                  console.log('before setTheProfile');
+                  console.log(newProfile);
+                  value.setTheProfile(newProfile);
+                }}
+              />
               <Text style={{ textAlign: 'center' }}>Score</Text>
               <ESGProfile score={value.profile.score} />
             </View>

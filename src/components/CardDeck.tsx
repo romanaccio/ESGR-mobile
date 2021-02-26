@@ -48,9 +48,6 @@ class CardDeck extends Component<CardProps> {
             renderCard={(card) => {
               return <CardFace data={card} />;
             }}
-            onSwiped={(cardIndex) => {
-              console.log('swiped card with index ' + cardIndex);
-            }}
             onSwipedAll={() => {
               this.setState({ done: true });
               console.log('onSwipedAll');
@@ -72,7 +69,7 @@ class CardDeck extends Component<CardProps> {
           {displayButtons ? (
             <>
               <MyButton
-                handleSwipe={() => {
+                handleAction={() => {
                   if (this.swiper) this.swiper.swipeLeft();
                 }}
               >
@@ -80,7 +77,7 @@ class CardDeck extends Component<CardProps> {
               </MyButton>
               <Text>{legend ? legend : 'Please swipe'}</Text>
               <MyButton
-                handleSwipe={() => {
+                handleAction={() => {
                   if (this.swiper) this.swiper.swipeRight();
                 }}
               >

@@ -2,16 +2,16 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 interface MyButtonInterface {
-  handleSwipe(): void;
+  handleAction(): void;
 }
 
 const MyButton: FunctionComponent<MyButtonInterface> = ({
-  handleSwipe,
+  handleAction: handleAction,
   children,
 }) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={handleSwipe}>
+      <TouchableOpacity style={styles.button} onPress={handleAction}>
         {children}
       </TouchableOpacity>
     </View>

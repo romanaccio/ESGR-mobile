@@ -15,6 +15,8 @@ export default function App() {
 
   const [profile, setProfile] = useState(defaultProfile);
   const setTheProfile = (newProfile: ProfileInterface) => {
+    console.log('App');
+    console.log(newProfile);
     setProfile(newProfile);
   };
 
