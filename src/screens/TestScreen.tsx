@@ -123,11 +123,11 @@ export default class TestScreen extends Component {
   saveResults = async () => {
     const { profile, setTheProfile } = this.context;
     const { selectedCards } = this.state;
-
+    const score = calculateScore(this.state.selectedCards);
     // 1. save results into context
     const newProfile = {
       ...profile,
-      score: calculateScore(this.state.selectedCards),
+      score,
     };
     setTheProfile(newProfile);
 
@@ -137,6 +137,7 @@ export default class TestScreen extends Component {
       username,
       reportStart: this.state.surveyStartTimestamp,
       data: articlesToReport(selectedCards),
+      score: score,
     };
     try {
       await writeReport(surveyReport);

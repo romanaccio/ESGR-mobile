@@ -1,7 +1,6 @@
 import React, { useReducer, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { View, Text } from '../components/Themed';
-import { TextInput } from 'react-native';
+import { View, Text, TextInput } from '../components/Themed';
 import { ProfileInterface } from './ProfileContext';
 import MyButton from './MyButton';
 import { AntDesign } from '@expo/vector-icons';
