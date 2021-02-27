@@ -7,7 +7,7 @@ import { ArticleInterface, defaultArticle } from '../models/Article';
 import ProfileContext from '../components/ProfileContext';
 import CardDeck, { SwipeDirection } from '../components/CardDeck';
 import { calculateScore } from '../util/calculateScore';
-import { writeReport } from '../services/writeReport';
+import { writeReport } from '../services/database';
 import { articlesToReport } from '../models/Article';
 import ESGProfile from '../components/ESGProfile';
 import Toast from 'react-native-tiny-toast';
@@ -136,13 +136,13 @@ export default class TestScreen extends Component {
     const surveyReport = {
       username,
       reportStart: this.state.surveyStartTimestamp,
-      data: articlesToReport(selectedCards),
       score: score,
+      data: articlesToReport(selectedCards),
     };
     try {
       await writeReport(surveyReport);
     } catch (error) {
-      console.log('writeReport: ' + error.message);
+      console.log('saveResult, writeReport: ' + error.message);
       Toast.show(error.message);
     }
 

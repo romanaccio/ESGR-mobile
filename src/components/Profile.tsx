@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
   },
   display: {
     margin: 1,
+    padding: 1,
   },
   error: {
     color: 'red',
