@@ -241,6 +241,7 @@ TestScreen.contextType = ProfileContext;
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    bottom: 30,
   },
   hello: {
     fontSize: 20,

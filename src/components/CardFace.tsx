@@ -65,13 +65,10 @@ const styles = StyleSheet.create({
     bottom: -4,
     alignSelf: 'center',
     backgroundColor: 'white',
-    margin: 5,
+    marginHorizontal: 15,
     paddingHorizontal: 20,
     borderTopRightRadius: 12,
     borderTopLeftRadius: 12,
-  },
-  empty: {
-    flex: 1,
   },
 });
 export default CardFace;
